@@ -22,15 +22,119 @@ Get value from Bootstrap dropdown menu
 */
 $('#dropdown li').on('click', function(){
 //      alert($(this).text());
+    var district;
+    switch($(this).text()) {
+      case "臺北市(Taipei)":
+        district = 2306179;
+        break;
+      case "新北市(New Taipei)":
+        district = 20070569;
+        break;
+      case "台中市(TaiZhong)":
+        district = 2306181;
+        break;
+      case "臺南市(Tainan)":
+        district = 2306182;
+        break;
+      case "高雄市(Kaohsiung)":
+        district = 2306180;
+        break;
+      case "基隆市(Keelung)":
+        district = 2306188;
+        break;
+      case "桃園市(Taoyuan)":
+        district = 28752472;
+        break;
+      case "新竹市(Hsinchu)":
+        district = 2306185;
+        break;
+      case "新竹縣(Hsinchu)":
+        district = 2306185;
+        break;
+      case "苗栗縣(Miaoli)":
+        district = 2301128;
+        break;
+      case "彰化縣(Chuanghua)":
+        district = 2306183;
+        break;
+      case "南投縣(Nantou)":
+        district = 2306204;
+        break;
+      case "雲林縣(Yunlin)":
+        district = 2306212;
+        break;
+      case "嘉義市(Chiayi)":
+        district = 2296315;
+        break;
+      case "嘉義縣(Chiayi)":
+        district = 2306206;
+        break;
+      case "屏東縣(Pingtung)":
+        district = 2306189;
+        break;
+      case "宜蘭縣(Ilan)":
+        district = 2306198;
+        break;
+      case "花蓮縣(Hualien)":
+        district = 2306187;
+        break;
+      case "台東縣(Taidong)":
+        district = 2306190;
+        break;
+      case "澎湖縣(Penghu)":
+        district = 22695856;
+        break;
+      case "金門縣(Kinmen)":
+        district = 28760735;
+        break;
+      case "連江縣(Mazu)":
+        district = 28760734;
+        break;
+      default:
+        district = 2306179;
+        break;
+    }
+
       $.ajax('https://query.yahooapis.com/v1/public/yql', {
         method: 'GET',
         data: {
-          q: 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="nome, ak")', //' + city + '
+          q: 'select * from weather.forecast where woeid="' + district + '"', //in (select woeid from geo.places(1) where text="nome, ak") ' + city + '
+          //臺北市2306179, 新北市20070569, 台中市2306181, 臺南市2306182, 高雄市2306180, 基隆市2306188, 桃園市28752472, 新竹市2306185, 新竹縣2306185, 苗栗縣2301128, 彰化縣2306183, 南投縣2306204, 雲林縣2306212, 嘉義市2296315, 嘉義縣2306206, 屏東縣2306189, 宜蘭縣2306198, 花蓮縣2306187, 台東縣2306190, 澎湖縣22695856, 金門縣28760735, 連江縣28760734.
           format: 'json'
         },
         success: function (data) {
+        //  'C = 5/9 ('F-32)
+          var weatherInfo = data.query.results.channel,
+          cityInfo = weatherInfo.location.city,
+          dateInfo = weatherInfo.item.condition.date,
+          tempInfo = parseInt((5/9) * (weatherInfo.item.condition.temp-32)),
+          condInfo = weatherInfo.item.condition.text;
 
-        alert(data.query.results.channel.item.title);
+          $('.temperature').text(tempInfo);
+          $('.date').text(dateInfo + ": " + condInfo);
+
+          var forecastInfo = [{}];
+          forecastInfo[0].date = weatherInfo.item.forecast[0].date + " " + weatherInfo.item.forecast[0].day;
+          forecastInfo[1].date = weatherInfo.item.forecast[1].date + " " + weatherInfo.item.forecast[1].day;
+          forecastInfo[2].date = weatherInfo.item.forecast[2].date + " " + weatherInfo.item.forecast[2].day;
+          forecastInfo[0].temp = parseInt((5/9) * (weatherInfo.item.forecast[0].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[0].high-32));
+          forecastInfo[1].temp = parseInt((5/9) * (weatherInfo.item.forecast[1].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[1].high-32));
+          forecastInfo[2].temp = parseInt((5/9) * (weatherInfo.item.forecast[2].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[2].high-32));
+
+
+          $('#forecast1-date').text(forecastInfo[0].date);
+          $('#forecast2-date').text(forecastInfo[1].date);
+          $('#forecast3-date').text(forecastInfo[2].date);
+
+          $('#forecast1-temp').text(forecastInfo[0].temp);
+          $('#forecast2-temp').text(forecastInfo[1].temp);
+          $('#forecast3-temp').text(forecastInfo[2].temp);
+          //weatherInfo.item.forecast[i].date;
+          //weatherInfo.item.forecast[i].day;
+          //weatherInfo.item.forecast[i].high;
+          //weatherInfo.item.forecast[i].low;
+          //weatherInfo.item.forecast[i].text;
+
         }
       });
 });
