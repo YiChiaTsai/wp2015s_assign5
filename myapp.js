@@ -13,13 +13,24 @@ var skycons = new Skycons();
 
   // start animation!
   skycons.play();
-  
+
   // want to change the icon? no problem:
   skycons.set("today", Skycons.PARTLY_CLOUDY_NIGHT);
-  
+
 /*
 Get value from Bootstrap dropdown menu
 */
 $('#dropdown li').on('click', function(){
-    alert($(this).text());
+//      alert($(this).text());
+      $.ajax('https://query.yahooapis.com/v1/public/yql', {
+        method: 'GET',
+        data: {
+          q: 'select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="nome, ak")', //' + city + '
+          format: 'json'
+        },
+        success: function (data) {
+
+        alert(data.query.results.channel.title);
+        }
+      }
 });
