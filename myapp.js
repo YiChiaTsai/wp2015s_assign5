@@ -113,22 +113,22 @@ $('#dropdown li').on('click', function(){
           $('.temperature').text(tempInfo);
           $('.date').text(dateInfo + ": " + condInfo);
 
-          var forecastInfo = [{}];
-          forecastInfo[0].date = weatherInfo.item.forecast[0].date + " " + weatherInfo.item.forecast[0].day;
-          forecastInfo[1].date = weatherInfo.item.forecast[1].date + " " + weatherInfo.item.forecast[1].day;
-          forecastInfo[2].date = weatherInfo.item.forecast[2].date + " " + weatherInfo.item.forecast[2].day;
-          forecastInfo[0].temp = parseInt((5/9) * (weatherInfo.item.forecast[0].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[0].high-32));
-          forecastInfo[1].temp = parseInt((5/9) * (weatherInfo.item.forecast[1].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[1].high-32));
-          forecastInfo[2].temp = parseInt((5/9) * (weatherInfo.item.forecast[2].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[2].high-32));
+          var forecastInfo = {};
+          forecastInfo.date1 = weatherInfo.item.forecast[0].date + " " + weatherInfo.item.forecast[0].day;
+          forecastInfo.date2 = weatherInfo.item.forecast[1].date + " " + weatherInfo.item.forecast[1].day;
+          forecastInfo.date3 = weatherInfo.item.forecast[2].date + " " + weatherInfo.item.forecast[2].day;
+          forecastInfo.temp1 = parseInt((5/9) * (weatherInfo.item.forecast[0].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[0].high-32)) + " ";
+          forecastInfo.temp2 = parseInt((5/9) * (weatherInfo.item.forecast[1].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[1].high-32)) + " ";
+          forecastInfo.temp3 = parseInt((5/9) * (weatherInfo.item.forecast[2].low-32)) + "-" + parseInt((5/9) * (weatherInfo.item.forecast[2].high-32)) + " ";
 
 
-          $('#forecast1-date').text(forecastInfo[0].date);
-          $('#forecast2-date').text(forecastInfo[1].date);
-          $('#forecast3-date').text(forecastInfo[2].date);
+          $('#forecast1-date').text(forecastInfo.date1);
+          $('#forecast2-date').text(forecastInfo.date2);
+          $('#forecast3-date').text(forecastInfo.date3);
 
-          $('#forecast1-temp').text(forecastInfo[0].temp);
-          $('#forecast2-temp').text(forecastInfo[1].temp);
-          $('#forecast3-temp').text(forecastInfo[2].temp);
+          $('#forecast1-temp').text(forecastInfo.temp1);
+          $('#forecast2-temp').text(forecastInfo.temp2);
+          $('#forecast3-temp').text(forecastInfo.temp3);
           //weatherInfo.item.forecast[i].date;
           //weatherInfo.item.forecast[i].day;
           //weatherInfo.item.forecast[i].high;
