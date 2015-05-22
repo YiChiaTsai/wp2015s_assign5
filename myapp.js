@@ -30,7 +30,7 @@ $('#dropdown li').on('click', function(){
         },
         success: function (data) {
 
-        alert(data.query.results.channel.title);
+        alert(data.query.results.channel.item.title);
         }
       });
 });
