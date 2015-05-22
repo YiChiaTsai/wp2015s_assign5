@@ -32,5 +32,5 @@ $('#dropdown li').on('click', function(){
 
         alert(data.query.results.channel.title);
         }
-      }
+      });
 });
